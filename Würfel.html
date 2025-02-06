@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digitaler Würfel</title>
+    <style>
+        body { 
+            text-align: center; 
+            font-family: Arial, sans-serif; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        .container { display: flex; flex-direction: column; align-items: center; }
+        .cube {
+            width: 80vh; height: 80vh;
+            transform-style: preserve-3d;
+            transform: rotateX(0deg) rotateY(0deg);
+            transition: transform 3s ease-in-out;
+            position: relative;
+        }
+        .side {
+            position: absolute;
+            width: 80vh; height: 80vh;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid #000;
+        }
+        .front  { transform: translateZ(40vh); }
+        .back   { transform: rotateY(180deg) translateZ(40vh); }
+        .left   { transform: rotateY(-90deg) translateZ(40vh); }
+        .right  { transform: rotateY(90deg) translateZ(40vh); }
+        .top    { transform: rotateX(90deg) translateZ(40vh); }
+        .bottom { transform: rotateX(-90deg) translateZ(40vh); }
+        button { margin-top: 20px; padding: 10px 20px; font-size: 18px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cube" id="cube">
+            <div class="side front" style="background-image: url('seite1.png');"></div>
+            <div class="side back" style="background-image: url('seite2.png');"></div>
+            <div class="side left" style="background-image: url('seite3.png');"></div>
+            <div class="side right" style="background-image: url('seite4.png');"></div>
+            <div class="side top" style="background-image: url('seite5.png');"></div>
+            <div class="side bottom" style="background-image: url('seite6.png');"></div>
+        </div>
+        <button onclick="rollDice()">Würfeln</button>
+    </div>
+    
+    <script>
+        function rollDice() {
+            const finalRotations = [
+                { x: 0, y: 0 },
+                { x: 0, y: 180 },
+                { x: 0, y: -90 },
+                { x: 0, y: 90 },
+                { x: -90, y: 0 },
+                { x: 90, y: 0 }
+            ];
+            
+            let randomRotation = finalRotations[Math.floor(Math.random() * finalRotations.length)];
+            let cube = document.getElementById('cube');
+            
+            let randomX = randomRotation.x + (Math.floor(Math.random() * 4) + 3) * 360;
+            let randomY = randomRotation.y + (Math.floor(Math.random() * 4) + 3) * 360;
+            
+            cube.style.transition = "transform 3s ease-in-out";
+            cube.style.transform = `rotateX(${randomX}deg) rotateY(${randomY}deg)`;
+        }
+    </script>
+</body>
+</html>
